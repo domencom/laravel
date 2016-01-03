@@ -31,7 +31,8 @@ class Manager
         }
 
         $query = http_build_query($reqArr);
-        $cacheKey = md5($query);
+
+        $cacheKey = md5(self::class . $this->config->apiOutput . $query);
 
         if ($this->cache->has($cacheKey)) {
             $result = $this->cache->get($cacheKey);
