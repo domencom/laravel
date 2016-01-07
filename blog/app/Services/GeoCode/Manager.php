@@ -23,17 +23,17 @@ class Manager
     public function sendRequest(Request $request)
     {
         $query = $request->getRequestString();
-        echo $query, '<br>';
+
         $cacheKey = md5(self::class . $this->config->apiOutput . $query);
-        $result = $this->httpRequest->sendRequest($this->config->apiOutput, $query);
-        /*if ($this->cache->has($cacheKey)) {
+
+        if ($this->cache->has($cacheKey)) {
             $result = $this->cache->get($cacheKey);
         } else {
             $result = $this->httpRequest->sendRequest($this->config->apiOutput, $query);
             if (! empty($result)) {
                 $this->cache->put($cacheKey, $result, $this->config->cacheTime);
             }
-        }*/
+        }
 
         return $this->getResponse($result);
     }
