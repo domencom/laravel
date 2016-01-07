@@ -14,6 +14,7 @@
 Route::get('/', 'GeoCodeController@index');
 
 Route::get('home', 'HomeController@index');
+Route::get('auth', ['middleware' => 'auth', 'Auth\AuthController@index']);
 Route::get('hello', 'WelcomeController@hello');
 Route::get('about', 'PagesController@about');
 Route::get('tasks', 'TasksController@tasks');

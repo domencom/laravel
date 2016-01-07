@@ -2,7 +2,7 @@
 
 namespace App\Services\GeoCode;
 
-use App\Services\GeoCode\Http\Request as HttpRequest;
+use App\Services\GeoCode\Http\RequestContract as HttpRequest;
 use Illuminate\Cache\Repository as Cache;
 
 class Manager
@@ -22,26 +22,18 @@ class Manager
 
     public function sendRequest(Request $request)
     {
-        $reqArr = ['language' => $request->language, 'key' => $this->config->apiKey];
-
-        if ($request->isReverse()) {
-            $reqArr['latlng'] = $request->latitude . ',' . $request->longitude;
-        } else {
-            $reqArr['address'] = $request->address;
-        }
-
-        $query = http_build_query($reqArr);
-
+        $query = $request->getRequestString();
+        echo $query, '<br>';
         $cacheKey = md5(self::class . $this->config->apiOutput . $query);
-
-        if ($this->cache->has($cacheKey)) {
+        $result = $this->httpRequest->sendRequest($this->config->apiOutput, $query);
+        /*if ($this->cache->has($cacheKey)) {
             $result = $this->cache->get($cacheKey);
         } else {
             $result = $this->httpRequest->sendRequest($this->config->apiOutput, $query);
             if (! empty($result)) {
                 $this->cache->put($cacheKey, $result, $this->config->cacheTime);
             }
-        }
+        }*/
 
         return $this->getResponse($result);
     }
@@ -52,7 +44,10 @@ class Manager
      */
     protected function getResponse($resultStr)
     {
-        return new Response($this->config->apiOutput, $resultStr);
+        /**
+         * @var Response
+         */
+        return app(Response::class)->setResponseString($resultStr);
     }
 
 }

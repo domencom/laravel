@@ -11,6 +11,7 @@ class Request
     protected $reverse = false;
     protected $latitude = 0;
     protected $longitude = 0;
+    protected $region = '';
 
     public function setAddress($address)
     {
@@ -34,6 +35,14 @@ class Request
         $this->language = $lang;
 
         return $this;
+    }
+
+    /**
+     * @param string | array $region
+     */
+    public function setRegion($region)
+    {
+
     }
 
     public function isReverse()
@@ -65,8 +74,24 @@ class Request
         } else {
             return [
                 'address' => $this->address,
-                'language' => $this->language
+                'language' => $this->language,
+                'region' => $this->region,
             ];
         }
+    }
+
+    public function getRequestString()
+    {
+        $config = app(Config::class);
+
+        $reqArr = ['language' => $this->language, 'key' => $config->apiKey];
+
+        if ($this->isReverse()) {
+            $reqArr['latlng'] = $this->latitude . ',' . $this->longitude;
+        } else {
+            $reqArr['address'] = $this->address;
+        }
+
+        return http_build_query($reqArr);
     }
 }

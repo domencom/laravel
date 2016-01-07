@@ -2,9 +2,7 @@
 
 namespace App\Services\GeoCode\Http;
 
-use GuzzleHttp\Client;
-
-abstract class Request extends Client
+interface RequestContract
 {
     /**
      *
@@ -12,5 +10,5 @@ abstract class Request extends Client
      * @param string $requestStr
      * @return string
      */
-    abstract public function sendRequest($output, $requestStr);
+    public function sendRequest($output, $requestStr);
 }
