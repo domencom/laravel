@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Services\GeoCode\Manager;
-use App\Services\GeoCode\Request;
+use App\Services\GeoCode\Request as GeoCodeRequest;
 
 class GeoCodeController extends Controller {
 
@@ -13,12 +13,12 @@ class GeoCodeController extends Controller {
      */
     public function index(Manager $manager)
     {
-        $req1 = (new Request())
+        $req1 = app(GeoCodeRequest::class)
             ->setAddress('1600+Amphitheatre+Parkway,+Mountain+View,+CA')
             ->setLanguage('en');
 
         // reverse geo coding
-        $req2 = (new Request())
+        $req2 = app(GeoCodeRequest::class)
             ->setLatLong(40.71, -73.96)
             ->setLanguage('ru');
 

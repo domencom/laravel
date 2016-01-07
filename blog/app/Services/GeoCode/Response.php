@@ -29,10 +29,16 @@ class Response
      * @param string $output GeoCode API output type in request
      * @param string $response GeoCode API response string
      */
-    public function __construct($output, $response)
+    public function __construct($output, $response = '')
     {
         $this->response = $response;
         $this->outputType = strtolower($output);
+    }
+
+    public function setResponseString($response)
+    {
+        $this->response = $response;
+        return $this;
     }
 
     /**
