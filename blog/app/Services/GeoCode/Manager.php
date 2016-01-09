@@ -20,7 +20,7 @@ class Manager
     }
 
 
-    public function sendRequest(Request $request)
+    public function sendRequest(Query $request)
     {
         $query = $request->getRequestString();
 

@@ -32,10 +32,6 @@ class GeoCodeServiceProvider extends ServiceProvider {
             return new GeoCode\Response($config->apiOutput, '');
         });
 
-        $this->app->bind(GeoCode\Request::class, function($app) use ($config) {
-            return new GeoCode\Request($config->apiOutput, '');
-        });
-
         $this->app->instance(GeoCode\Config::class, $config);
     }
 
@@ -43,7 +39,7 @@ class GeoCodeServiceProvider extends ServiceProvider {
     {
         return [
             GeoCode\Manager::class, GeoCode\Response::class,
-            GeoCode\Request::class, GeoCode\Config::class
+            GeoCode\Config::class
         ];
     }
 }
